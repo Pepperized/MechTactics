@@ -1,0 +1,94 @@
+@import "reset.css";
+@import "heading.css";
+@import "paragraph.css";
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+
+* {
+    font-family: "Lato", Helvetica, sans-serif;
+}
+
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 15px;
+    height: 45px;
+    border-bottom: thick solid #181818;
+    background-color: #383838;
+}
+
+#navbar .btnNormal {
+    height: 40px;
+    font-size: 12pt;
+    width: 120px;
+    margin-right: 5px;
+}
+
+.navsection {
+    display:inline-block;
+}
+
+#navbtnsection {
+    float: right;
+    margin-right: 30px;
+    margin-top: 3px;
+}
+
+#maintitle {
+    color: white;
+    display: inline-block;
+    font-size: 24pt;
+}
+
+body {
+    width: 100%;
+    margin-top: 45px;
+    margin-left: 0;
+    background-color: #fbfbfb;
+}
+
+.btnImportant {
+    background-color: #266C42;
+    border-width: 0;
+    border-radius: 5px;
+    color: #fbfbfd;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 6px 12px;
+    width: 150px;
+    height: 50px;
+    font-size: 14pt;
+    display: inline-block;
+}
+
+.btnNormal {
+    background-color: transparent;
+    border-width: 4px;
+    border-radius: 5px;
+    border-color: #fbfbfd;
+    color: #fbfbfd;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 6px 12px;
+    width: 150px;
+    height: 50px;
+    font-size: 14pt;
+    display: inline-block;
+}
+
+footer {
+    background-color: #181818;
+    bottom: 0;
+    border-top: 1px solid black;
+}
+
+footer p {
+    color: lightgray;
+    max-width: none;
+    margin: auto;
+}
+
+

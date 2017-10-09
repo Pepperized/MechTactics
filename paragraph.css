@@ -1,0 +1,9 @@
+p {
+    color: darkslategray;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 16pt;
+    line-height: 160%;
+    padding-bottom: 30px;
+    letter-spacing: 1px;
+}

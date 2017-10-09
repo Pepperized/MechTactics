@@ -1,0 +1,14 @@
+@import "mainstyle.css";
+
+#splashdiv {
+    height: 100vh;
+    background-color: #4DAC71;
+    border-bottom: thick solid #3BA666;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#splashdiv * {
+    text-align: center;
+}
