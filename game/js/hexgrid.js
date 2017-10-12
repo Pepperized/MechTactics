@@ -1,3 +1,9 @@
+var selected_mech = null;
+var selected_ability = null;
+var grid_state = {select: 0,
+                  target: 1};
+var current_grid_state = grid_state.select;
+
 function HexGrid(rows, cols, tileSize, gridCenterX, gridCenterY) {
     this.rows = rows;
     this.cols = cols;
@@ -49,6 +55,7 @@ function HexTile(gridx, gridy, truex, truey, size) {
     this.sprite = null;
     this.spriteHeight = size * 2;
     this.spriteWidth = this.spriteHeight * (Math.sqrt(3) / 2);
+    this.mech = null;
     this.draw = function() {
         this.sprite = game.add.sprite(this.truex, this.truey, 'hexagon');
         this.sprite.anchor.set(0.5);
@@ -59,11 +66,22 @@ function HexTile(gridx, gridy, truex, truey, size) {
         game.debug.text(gridx + ", " + gridy, this.truex-20, this.truey);
         //this.sprite.events.onInputOut.add(this.changeSprite2, this)
     }
-    this.changeSprite = function() {
-        this.sprite.loadTexture('hexagonRed');
+    this.changeSprite = function(key) {
+        this.sprite.loadTexture(key);
     }
     this.clickEvent = function() {
-        console.log("Event at :" + this.gridx + ", " + this.gridy);
+         console.log("Clicked");
+        if (current_grid_state === grid_state.select) {
+            if (this.mech) {
+                selected_mech = this.mech;
+                current_grid_state = grid_state.target;
+                this.mech.clickEvent();
+            }
+        } else if (current_grid_state === grid_state.target) {
+            selected_ability.effect(this.gridx, this.gridy);
+        }
+        
+        /*console.log("Event at :" + this.gridx + ", " + this.gridy);
         //console.log(oddr_to_cube(this.gridx, this.gridy));
         this.sprite.loadTexture('hexagonRed');
         for (var i=0; i < 6; i++) {
@@ -77,7 +95,8 @@ function HexTile(gridx, gridy, truex, truey, size) {
             if  (validateGridRef(offsetCoOrd[0], offsetCoOrd[1])) {
                 hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite();
             }
-        }
+        
+        }*/
     }
     /*this.changeSprite2 = function() {
         this.sprite.loadTexture('hexagon');
@@ -135,4 +154,8 @@ function cube_add(firstCubic, secondCubic){
     z = firstCubic.z + secondCubic.z;
     
     return new cube(x, y, z);
+}
+
+function cube_distance(a, b) {
+    return (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z)) / 2;
 }
