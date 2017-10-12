@@ -1,5 +1,6 @@
 var MECHSCALE = 1.5;
-
+var CARDSCALE = 0.25;
+var cancelCard = new CancelCard();
 
 function Mech(x, y) {
     this.spriteName = 'missileMech';
@@ -18,8 +19,9 @@ function Mech(x, y) {
     }
     this.clickEvent = function () {
             for (i=0; i < this.abilities.length; i++){
-                this.abilities[i].draw();
+                this.abilities[i].draw(i);
             }
+            cancelCard.draw(this.abilities.length);
         
     }
     this.changePosition = function(x, y) {
@@ -35,14 +37,29 @@ function Mech(x, y) {
     hexGrid.hexTiles[x][y].mech = this;
 }
 
+function CancelCard() {
+    this.spriteName = 'cancelCard';
+    this.sprite = null;
+    this.draw = function(n) {
+        this.sprite = game.add.sprite((n + 1) * 150, 450, this.spriteName);
+        this.sprite.scale.setTo(CARDSCALE);
+        this.sprite.inputEnabled = true;
+        this.sprite.events.onInputDown.add(this.clickEvent, this);
+        
+    }
+    this.clickEvent = function () {
+        AfterTargeting();
+    }
+}
+
 function Ability(mech) {
     this.spriteName = 'moveCard';
     this.sprite = null;
     this.mech = mech;
     this.range = 2;
-    this.draw = function() {
-        this.sprite = game.add.sprite(32, 450, this.spriteName);
-        this.sprite.scale.setTo(0.25);
+    this.draw = function(n) {
+        this.sprite = game.add.sprite((n * 150) + 30, 450, this.spriteName);
+        this.sprite.scale.setTo(CARDSCALE);
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputDown.add(this.clickEvent, this);
     }
@@ -54,15 +71,7 @@ function Ability(mech) {
     this.effect = function(clickX, clickY) { 
         if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range) {
             selected_mech.changePosition(clickX, clickY);
-            current_grid_state = grid_state.select;
-            for (i=0; i < hexGrid.hexTiles.length; i++) {
-                for (j=0;j < hexGrid.hexTiles[i].length; j++){
-                    hexGrid.hexTiles[i][j].changeSprite('hexagon');
-                }
-            }
-            for (i=0; i < selected_mech.abilities.length; i++) {
-                selected_mech.abilities[i].sprite.destroy();
-            }
+            AfterTargeting();
         }
     }
 }
@@ -87,7 +96,8 @@ function RangeNormal() {
                     var cubicCoOrd = cube_add( new cube(dx, dy, dz), oddr_to_cube(x, y));
                     var offsetCoOrd = cube_to_oddr(cubicCoOrd);
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
-                        hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
+                        if(!hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
+                            hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
                 }
             }
         }

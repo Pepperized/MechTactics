@@ -159,3 +159,16 @@ function cube_add(firstCubic, secondCubic){
 function cube_distance(a, b) {
     return (Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z)) / 2;
 }
+
+function AfterTargeting() {
+    current_grid_state = grid_state.select;
+    for (i=0; i < hexGrid.hexTiles.length; i++) {
+        for (j=0;j < hexGrid.hexTiles[i].length; j++){
+            hexGrid.hexTiles[i][j].changeSprite('hexagon');
+        }
+    }
+    for (i=0; i < selected_mech.abilities.length; i++) {
+        selected_mech.abilities[i].sprite.destroy();
+    }
+    cancelCard.sprite.destroy();
+}
