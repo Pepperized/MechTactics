@@ -1,6 +1,8 @@
 var MECHSCALE = 1.5;
 var CARDSCALE = 0.25;
 var cancelCard = new CancelCard();
+var teams = {player: 0,
+            enemy: 1};
 
 function Mech(x, y) {
     this.spriteName = 'missileMech';
@@ -9,6 +11,7 @@ function Mech(x, y) {
     this.y = y;
     this.truex = hexGrid.hexTiles[x][y].truex;
     this.truey = hexGrid.hexTiles[x][y].truey;
+    this.team = teams.player;
     this.abilities = [];
     this.activated = false;
     this.draw = function() {
@@ -25,6 +28,8 @@ function Mech(x, y) {
         
     }
     this.changePosition = function(x, y) {
+        var oldx = this.x;
+        var oldy = this.y;
         this.x = x;
         this.y = y;
         this.truex = hexGrid.hexTiles[x][y].truex;
@@ -32,6 +37,7 @@ function Mech(x, y) {
         this.sprite.x = this.truex;
         this.sprite.y = this.truey;
         hexGrid.hexTiles[x][y].mech = this;
+        hexGrid.hexTiles[oldx][oldy].mech = null;
     }
     
     hexGrid.hexTiles[x][y].mech = this;
@@ -53,12 +59,12 @@ function CancelCard() {
 }
 
 function Ability(mech) {
-    this.spriteName = 'moveCard';
+    this.spriteName = null;
     this.sprite = null;
     this.mech = mech;
     this.range = 2;
     this.draw = function(n) {
-        this.sprite = game.add.sprite((n * 150) + 30, 450, this.spriteName);
+        this.sprite = game.add.sprite((n * 200) + 30, 450, this.spriteName);
         this.sprite.scale.setTo(CARDSCALE);
         this.sprite.inputEnabled = true;
         this.sprite.events.onInputDown.add(this.clickEvent, this);
@@ -68,15 +74,20 @@ function Ability(mech) {
         this.rangeDraw();
     }
     this.rangeDraw = RangeNormal;
-    this.effect = function(clickX, clickY) { 
-        if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range) {
-            selected_mech.changePosition(clickX, clickY);
-            AfterTargeting();
-        }
+    this.effect = null;
+}
+
+function MoveEffect(clickX, clickY) {
+    if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range && !hexGrid.hexTiles[clickX][clickY].mech) {
+        var x = selected_mech.x;
+        var y = selected_mech.y;
+        selected_mech.changePosition(clickX, clickY);
+        AfterTargeting();
     }
 }
 
 function RangeNormal() {
+    ResetHexes();
     var x = this.mech.x;
     var y = this.mech.y;
     
@@ -92,7 +103,6 @@ function RangeNormal() {
         for (var dy = -this.range; -this.range <= dy && this.range >= dy; dy++) {
             for (var dz = -this.range; -this.range <= dz && this.range >= dz; dz++) {
                 if (dx + dy + dz == 0) {
-                    console.log(new cube(dx, dy, dz));
                     var cubicCoOrd = cube_add( new cube(dx, dy, dz), oddr_to_cube(x, y));
                     var offsetCoOrd = cube_to_oddr(cubicCoOrd);
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))

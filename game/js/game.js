@@ -9,10 +9,11 @@ function preload() {
     this.game.smoothed = false;
     
     game.load.image('hexagon', "assets/hexagon.png");
-    game.load.image('hexagonRed', "assets/hexagon_red.png")
-    game.load.image('missileMech', "assets/MissileMech.png")
-    game.load.image('moveCard', "assets/framemove.png")
-    game.load.image('cancelCard', "assets/framecancel.png")
+    game.load.image('hexagonRed', "assets/hexagon_red.png");
+    game.load.image('missileMech', "assets/MissileMech.png");
+    game.load.image('moveCard', "assets/framemove.png");
+    game.load.image('cancelCard', "assets/framecancel.png");
+    game.load.image('fireCard', "assets/framefire.png");
 }
 
 function create() {
@@ -21,10 +22,20 @@ function create() {
     hexGrid.construct();
     hexGrid.draw();
     
+    
     var mech = new Mech(4, 4);
     mech.draw();
-    hexGrid.hexTiles[4][4].mech = mech;
-    mech.abilities = [new Ability(mech)];
+    hexGrid.hexTiles[4,4].mech = mech;
+    var move = new Ability(mech);
+    move.effect = MoveEffect;
+    move.spriteName = 'moveCard';
+    var shoot = new Ability(mech);
+    shoot.effect = function(clickX, clickY) {
+        console.log("pew");
+    }
+    shoot.spriteName = 'fireCard';
+    shoot.range = 4;
+    mech.abilities = [move, shoot];
     
     var mech2 = new Mech(2,3);
     mech2.draw();
