@@ -16,9 +16,8 @@ function Mech(x, y) {
     this.health = 3;
     this.healthSprites = [];
     this.abilities = [];
-    this.activated = false;
+    this.exhausted = false;
     this.draw = function() {
-        console.log("Draw!");
         this.sprite = game.add.sprite(this.truex, this.truey, this.spriteName);
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.setTo(MECHSCALE);
@@ -119,7 +118,10 @@ function RangeNormal() {
                     var offsetCoOrd = cube_to_oddr(cubicCoOrd);
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
                         if(!hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
-                            hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
+                            hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonGreen');
+                        else {
+                            hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed')
+                        }
                 }
             }
         }
@@ -139,11 +141,34 @@ function RangeTarget() {
                     var cubicCoOrd = cube_add( new cube(dx, dy, dz), oddr_to_cube(x, y));
                     var offsetCoOrd = cube_to_oddr(cubicCoOrd);
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
-                        if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
-                            if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech.team == teams.enemy)
+                        if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech) {
+                            if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech.team == teams.enemy) {
+                                hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonGreen'); 
+                            }
+                            else {
                                 hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
+                            }
+                        }
+                        else {
+                             hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
+                        }
+                    
                 }
             }
+        }
+    }
+}
+
+function FireEffect(clickX, clickY) {
+    if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range && hexGrid.hexTiles[clickX][clickY].mech) {
+        var targetMech = hexGrid.hexTiles[clickX][clickY].mech;
+        if (targetMech.team === teams.enemy){
+            targetMech.health--;
+            targetMech.drawHealth();
+            if (targetMech.health <= 0) {
+                targetMech.destroy();
+            }
+            AfterTargeting();
         }
     }
 }

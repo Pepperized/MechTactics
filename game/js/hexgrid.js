@@ -70,12 +70,13 @@ function HexTile(gridx, gridy, truex, truey, size) {
         this.sprite.loadTexture(key);
     }
     this.clickEvent = function() {
-         console.log("Clicked");
         if (current_grid_state === grid_state.select) {
             if (this.mech) {
-                selected_mech = this.mech;
-                current_grid_state = grid_state.target;
-                this.mech.clickEvent();
+                if (this.mech.team === teams.player) {
+                    selected_mech = this.mech;
+                    current_grid_state = grid_state.target;
+                    this.mech.clickEvent();
+                }
             }
         } else if (current_grid_state === grid_state.target) {
             selected_ability.effect(this.gridx, this.gridy);
@@ -83,7 +84,7 @@ function HexTile(gridx, gridy, truex, truey, size) {
         
         /*console.log("Event at :" + this.gridx + ", " + this.gridy);
         //console.log(oddr_to_cube(this.gridx, this.gridy));
-        this.sprite.loadTexture('hexagonRed');
+        this.sprite.loadTexture('hexagonGreen');
         for (var i=0; i < 6; i++) {
             var cubeCoOrd = oddr_to_cube(this.gridx, this.gridy);
             var direction = cube_directions[i];
