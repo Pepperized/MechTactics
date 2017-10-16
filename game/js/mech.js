@@ -1,5 +1,6 @@
 var MECHSCALE = 1.5;
 var CARDSCALE = 0.25;
+var HEALTHSCALE = 2;
 var cancelCard = new CancelCard();
 var teams = {player: 0,
             enemy: 1};
@@ -12,6 +13,8 @@ function Mech(x, y) {
     this.truex = hexGrid.hexTiles[x][y].truex;
     this.truey = hexGrid.hexTiles[x][y].truey;
     this.team = teams.player;
+    this.health = 3;
+    this.healthSprites = [];
     this.abilities = [];
     this.activated = false;
     this.draw = function() {
@@ -19,6 +22,7 @@ function Mech(x, y) {
         this.sprite = game.add.sprite(this.truex, this.truey, this.spriteName);
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.setTo(MECHSCALE);
+        this.drawHealth();
     }
     this.clickEvent = function () {
             for (i=0; i < this.abilities.length; i++){
@@ -27,6 +31,21 @@ function Mech(x, y) {
             cancelCard.draw(this.abilities.length);
         
     }
+    this.drawHealth = function() {
+        for (i=0; i < this.healthSprites.length; i++) {
+            this.healthSprites[i].destroy();
+        }
+        this.healthSprites = [];
+        for (i=0; i < this.health; i++) {
+            var spriteWidth = 8;
+            var healthSprite = game.add.sprite(this.truex + (spriteWidth * i) - (this.health * (spriteWidth / 2)) + spriteWidth / 2, this.truey - 30, 'health');
+            healthSprite.anchor.setTo(0.5);
+            healthSprite.scale.setTo(HEALTHSCALE);
+            this.healthSprites.push(healthSprite);
+        }
+    }
+    
+    
     this.changePosition = function(x, y) {
         var oldx = this.x;
         var oldy = this.y;
@@ -38,6 +57,7 @@ function Mech(x, y) {
         this.sprite.y = this.truey;
         hexGrid.hexTiles[x][y].mech = this;
         hexGrid.hexTiles[oldx][oldy].mech = null;
+        this.drawHealth();
     }
     
     hexGrid.hexTiles[x][y].mech = this;
@@ -59,7 +79,7 @@ function CancelCard() {
 }
 
 function Ability(mech) {
-    this.spriteName = null;
+    this.spriteName = 'moveCard';
     this.sprite = null;
     this.mech = mech;
     this.range = 2;
@@ -91,14 +111,6 @@ function RangeNormal() {
     var x = this.mech.x;
     var y = this.mech.y;
     
-    /*for (i=0; i < 6; i++) {
-        var cubicCoOrd = cube_getNeighborInDir(oddr_to_cube(x, y), cube_directions[i]);
-        var offsetCoOrd = cube_to_oddr(cubicCoOrd);
-        
-        hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
-        
-    }*/
-    
     for (var dx = -this.range; -this.range <= dx && this.range >= dx; dx++) {
         for (var dy = -this.range; -this.range <= dy && this.range >= dy; dy++) {
             for (var dz = -this.range; -this.range <= dz && this.range >= dz; dz++) {
@@ -108,6 +120,28 @@ function RangeNormal() {
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
                         if(!hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
                             hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
+                }
+            }
+        }
+    }
+}
+
+function RangeTarget() {
+    ResetHexes();
+    var x = this.mech.x;
+    var y = this.mech.y;
+    
+    
+    for (var dx = -this.range; -this.range <= dx && this.range >= dx; dx++) {
+        for (var dy = -this.range; -this.range <= dy && this.range >= dy; dy++) {
+            for (var dz = -this.range; -this.range <= dz && this.range >= dz; dz++) {
+                if (dx + dy + dz == 0) {
+                    var cubicCoOrd = cube_add( new cube(dx, dy, dz), oddr_to_cube(x, y));
+                    var offsetCoOrd = cube_to_oddr(cubicCoOrd);
+                    if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
+                        if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
+                            if(hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech.team == teams.enemy)
+                                hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed');
                 }
             }
         }

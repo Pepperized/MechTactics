@@ -14,6 +14,7 @@ function preload() {
     game.load.image('moveCard', "assets/framemove.png");
     game.load.image('cancelCard', "assets/framecancel.png");
     game.load.image('fireCard', "assets/framefire.png");
+    game.load.image('health', "assets/health.png");
 }
 
 function create() {
@@ -34,13 +35,18 @@ function create() {
         console.log("pew");
     }
     shoot.spriteName = 'fireCard';
+    shoot.rangeDraw = RangeTarget;
     shoot.range = 4;
     mech.abilities = [move, shoot];
     
     var mech2 = new Mech(2,3);
+    mech2.health = 2;
     mech2.draw();
     hexGrid.hexTiles[2,3].mech = mech2;
-    mech2.abilities = [new Ability(mech2)];
+    var move = new Ability(mech);
+    move.effect = MoveEffect;
+    move.spriteName = 'moveCard';
+    mech2.abilities = [move];
 
     
 }
