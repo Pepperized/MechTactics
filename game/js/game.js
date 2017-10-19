@@ -17,7 +17,9 @@ function preload() {
     game.load.image('cancelCard', "assets/framecancel.png");
     game.load.image('fireCard', "assets/framefire.png");
     game.load.image('health', "assets/health.png");
-    game.load.image('enemyMech', "assets/enemy.png")
+    game.load.image('enemyMech', "assets/enemy.png");
+    game.load.image('playerBullet', "assets/playerBullet.png");
+    game.load.image('enemyBullet', "assets/enemyBullet.png");
 }
 
 function create() {
@@ -59,12 +61,12 @@ var t = 0;
 
 function update() {
     //take action every 30 frames
-    /*if (t >= 30) {
+    if (t >= 300) {
         t = 0;
-        enemyMech.routine();
+        projectileEffect(1,1,8,8,'playerBullet');
     } else {
         t++;
-    }*/
+    }
 }
 
 function getRandomInt(min, max) {
