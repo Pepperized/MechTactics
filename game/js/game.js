@@ -58,13 +58,13 @@ function create() {
 var t = 0;
 
 function update() {
-    //take action every 15 frames
-    if (t >= 15) {
+    //take action every 30 frames
+    /*if (t >= 30) {
         t = 0;
         enemyMech.routine();
     } else {
         t++;
-    }
+    }*/
 }
 
 function getRandomInt(min, max) {

@@ -6,12 +6,14 @@ function EnemyMech(x, y) {
     this.truex = hexGrid.hexTiles[x][y].truex;
     this.truey = hexGrid.hexTiles[x][y].truey;
     this.team = teams.enemy;
+    this.range = 3;
     this.health = 2;
     this.healthSprites = [];
     this.abilities = [];
     this.exhausted = false;
     this.routine = function () {
         EnemyMove(this);
+        EnemyShoot(this);
     }
     this.clickEvent = function() {
         this.routine();
@@ -74,4 +76,35 @@ function EnemyMove(mech) {
     }
     if (!hexGrid.hexTiles[offsetCoOrds[0]][offsetCoOrds[1]].mech)
         mech.changePosition(offsetCoOrds[0], offsetCoOrds[1]);
+}
+
+function EnemyShoot(mech) {
+    var targetMech = FindPlayerInRange(mech, mech.range);
+    if(targetMech !== null) {
+        targetMech.health--;
+        targetMech.drawHealth();
+        if (targetMech.health <= 0) {
+            targetMech.destroy();
+        }
+    }
+}
+
+function FindPlayerInRange(mech, range) {
+    var targetMech = null;
+    
+    for (var hexX=0; hexX < hexGrid.hexTiles.length; hexX++) {
+        for (var hexY=0; hexY < hexGrid.hexTiles[hexX].length; hexY++) {
+            if (hexGrid.hexTiles[hexX][hexY].mech) {
+                var targetMech = hexGrid.hexTiles[hexX][hexY].mech;
+                if (targetMech.team === teams.player) {
+                    var cubicEnemy = oddr_to_cube(mech.x, mech.y);
+                    var cubicPlayer = oddr_to_cube(hexX, hexY);
+                    if (cube_distance(cubicEnemy, cubicPlayer) <= range) {
+                        return targetMech;
+                    }
+                }
+            }
+        }
+    }
+    return null;
 }

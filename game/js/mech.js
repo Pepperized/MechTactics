@@ -59,6 +59,14 @@ function Mech(x, y) {
         this.drawHealth();
     }
     
+    this.destroy = function() {
+        this.sprite.destroy();
+        for (i=0; i < this.healthSprites.length; i++) {
+            this.healthSprites[i].destroy();
+        }
+        hexGrid.hexTiles[this.x][this.y].mech = null;
+    }
+    
     hexGrid.hexTiles[x][y].mech = this;
 }
 
