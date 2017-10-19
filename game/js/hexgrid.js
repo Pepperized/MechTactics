@@ -79,7 +79,12 @@ function HexTile(gridx, gridy, truex, truey, size) {
                 }
             }
         } else if (current_grid_state === grid_state.target) {
-            selected_ability.effect(this.gridx, this.gridy);
+            if (!selected_ability.used) {
+                selected_ability.effect(this.gridx, this.gridy);
+            } else {
+                AfterTargeting();
+                console.log("Ability already used this turn.");
+            }
         }
         
         /*console.log("Event at :" + this.gridx + ", " + this.gridy);

@@ -1,3 +1,5 @@
+var enemies = [];
+
 function EnemyMech(x, y) {
     this.spriteName = 'enemyMech';
     this.sprite = null;
@@ -57,9 +59,11 @@ function EnemyMech(x, y) {
             this.healthSprites[i].destroy();
         }
         hexGrid.hexTiles[this.x][this.y].mech = null;
+        remove(enemies, this);
     }
     
     hexGrid.hexTiles[x][y].mech = this;
+    enemies.push(this);
 }
 
 function EnemyMove(mech) {
@@ -83,9 +87,11 @@ function EnemyShoot(mech) {
     if(targetMech !== null) {
         targetMech.health--;
         targetMech.drawHealth();
+        projectileEffect(mech.x, mech.y, targetMech.x, targetMech.y, 'enemyBullet');
         if (targetMech.health <= 0) {
-            targetMech.destroy();
+            deleteAfterAnim.push(targetMech);
         }
+        
     }
 }
 

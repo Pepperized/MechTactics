@@ -4,6 +4,7 @@ var HEALTHSCALE = 2;
 var cancelCard = new CancelCard();
 var teams = {player: 0,
             enemy: 1};
+var mechs = [];
 
 function Mech(x, y) {
     this.spriteName = 'missileMech';
@@ -65,9 +66,11 @@ function Mech(x, y) {
             this.healthSprites[i].destroy();
         }
         hexGrid.hexTiles[this.x][this.y].mech = null;
+        remove(mechs, this);
     }
     
     hexGrid.hexTiles[x][y].mech = this;
+    mechs.push(this);
 }
 
 function CancelCard() {
@@ -90,6 +93,7 @@ function Ability(mech) {
     this.sprite = null;
     this.mech = mech;
     this.range = 2;
+    this.used = false;
     this.draw = function(n) {
         this.sprite = game.add.sprite((n * 200) + 30, 450, this.spriteName);
         this.sprite.scale.setTo(CARDSCALE);
@@ -110,6 +114,7 @@ function MoveEffect(clickX, clickY) {
         var y = selected_mech.y;
         selected_mech.changePosition(clickX, clickY);
         AfterTargeting();
+        this.used = true;
     }
 }
 
@@ -168,15 +173,19 @@ function RangeTarget() {
 }
 
 function FireEffect(clickX, clickY) {
+    var x = selected_mech.x;
+    var y = selected_mech.y;
     if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range && hexGrid.hexTiles[clickX][clickY].mech) {
         var targetMech = hexGrid.hexTiles[clickX][clickY].mech;
         if (targetMech.team === teams.enemy){
             targetMech.health--;
             targetMech.drawHealth();
             if (targetMech.health <= 0) {
-                targetMech.destroy();
+                deleteAfterAnim.push(targetMech);
             }
+            projectileEffect(x, y, clickX, clickY, 'playerBullet');
             AfterTargeting();
+            this.used = true;
         }
     }
 }

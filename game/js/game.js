@@ -3,7 +3,10 @@
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 var graphics;
 var hexGrid;
-var enemyMech;
+var endTurnButton;
+var turns = {player: 0,
+            enemy: 1};
+var turn = turns.player;
 
 function preload() {
 
@@ -15,11 +18,13 @@ function preload() {
     game.load.image('missileMech', "assets/MissileMech.png");
     game.load.image('moveCard', "assets/framemove.png");
     game.load.image('cancelCard', "assets/framecancel.png");
+    game.load.image('endTurn', "assets/frameend.png");
     game.load.image('fireCard', "assets/framefire.png");
     game.load.image('health', "assets/health.png");
     game.load.image('enemyMech', "assets/enemy.png");
     game.load.image('playerBullet', "assets/playerBullet.png");
     game.load.image('enemyBullet', "assets/enemyBullet.png");
+    game.load.spritesheet('explosion', "assets/explosion.png", 14, 14);
 }
 
 function create() {
@@ -27,6 +32,22 @@ function create() {
     hexGrid = new HexGrid(10, 9, 40, 50, 50);
     hexGrid.construct();
     hexGrid.draw();
+    
+    endTurnButton = game.add.sprite((game.world.centerX * 2) - 60, 40, 'endTurn');
+    endTurnButton.anchor.set(0.5);
+    endTurnButton.scale.setTo(CARDSCALE);
+    endTurnButton.inputEnabled = true;
+    endTurnButton.events.onInputDown.add(function() {
+        for (i=0; i < enemies.length; i++) {
+            enemies[i].routine());
+        }
+        
+        for (i=0; i < mechs.length; i++) {
+            for (j=0; j < mechs[i].abilities.length; j++) {
+                mechs[i].abilities[j].used = false;
+            }
+        }
+    }, this);
     
     
     var mech = new Mech(4, 4);
@@ -51,22 +72,21 @@ function create() {
     move.spriteName = 'moveCard';
     mech2.abilities = [move];
     
-    enemyMech = new EnemyMech(3, 2);
+    var enemyMech = new EnemyMech(3, 2);
     enemyMech.draw();
     
+    enemyMech = new EnemyMech(1, 2);
+    enemyMech.draw();
+    
+    enemyMech = new EnemyMech(7, 2);
+    enemyMech.draw();
     
 }
 
 var t = 0;
 
 function update() {
-    //take action every 30 frames
-    if (t >= 300) {
-        t = 0;
-        projectileEffect(1,1,8,8,'playerBullet');
-    } else {
-        t++;
-    }
+
 }
 
 function getRandomInt(min, max) {
@@ -75,4 +95,11 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function remove(array, element) {
+    const index = array.indexOf(element);
+    
+    if (index !== -1) {
+        array.splice(index, 1);
+    }
+}
 
