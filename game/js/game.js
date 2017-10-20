@@ -4,6 +4,7 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', { preload: preload, crea
 var graphics;
 var hexGrid;
 var endTurnButton;
+var enemyQueue = [];
 var turns = {player: 0,
             enemy: 1};
 var turn = turns.player;
@@ -19,6 +20,7 @@ function preload() {
     game.load.image('moveCard', "assets/framemove.png");
     game.load.image('cancelCard', "assets/framecancel.png");
     game.load.image('endTurn', "assets/frameend.png");
+    game.load.image('enemyTurn', "assets/frameenemyturn.png");
     game.load.image('fireCard', "assets/framefire.png");
     game.load.image('health', "assets/health.png");
     game.load.image('enemyMech', "assets/enemy.png");
@@ -38,9 +40,10 @@ function create() {
     endTurnButton.scale.setTo(CARDSCALE);
     endTurnButton.inputEnabled = true;
     endTurnButton.events.onInputDown.add(function() {
-        for (i=0; i < enemies.length; i++) {
-            enemies[i].routine();
-        }
+        console.log("End turn");
+        changeTurn(turns.enemy);
+        enemyQueue = enemies.slice();
+        endTurnButton.loadTexture('enemyTurn');
         
         for (i=0; i < mechs.length; i++) {
             for (j=0; j < mechs[i].abilities.length; j++) {
@@ -86,6 +89,13 @@ function create() {
 var t = 0;
 
 function update() {
+    if(turn === turns.enemy && !animInProgress) {
+        if (t >= 15) {
+            t = 0;
+            console.log(turn);
+            processQueue();
+        } else t++;
+    }
 
 }
 
@@ -100,6 +110,35 @@ function remove(array, element) {
     
     if (index !== -1) {
         array.splice(index, 1);
+    }
+}
+
+function changeTurn(newTurn) {
+    turn = newTurn;
+    if (newTurn === turns.player) {
+        for (x = 0; x < hexGrid.hexTiles.length; x++) {
+            for(y = 0; y < hexGrid.hexTiles[x].length; y++) {
+                hexGrid.hexTiles[x][y].sprite.inputEnabled = true;
+            }
+        }
+        endTurnButton.inputEnabled = true;
+        endTurnButton.loadTexture('endTurn');
+    } else {
+        for (x = 0; x < hexGrid.hexTiles.length; x++) {
+            for(y = 0; y < hexGrid.hexTiles[x].length; y++) {
+                hexGrid.hexTiles[x][y].sprite.inputEnabled = false;
+            }
+        }
+        endTurnButton.inputEnabled = false;
+    }
+}
+
+function processQueue() {
+    if (enemyQueue.length == 0) {
+        changeTurn(turns.player);
+    } else {
+        var item = enemyQueue.pop();
+        item.routine();
     }
 }
 

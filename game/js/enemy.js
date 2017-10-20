@@ -18,7 +18,7 @@ function EnemyMech(x, y) {
         EnemyShoot(this);
     }
     this.clickEvent = function() {
-        this.routine();
+        
     }
     this.draw = function() {
         this.sprite = game.add.sprite(this.truex, this.truey, this.spriteName);

@@ -2,8 +2,10 @@ var tween;
 var fxSpeed = 3;
 var deleteAfterAnim = [];
 var queue = [];
+var animInProgress = false;
 
 function projectileEffect(sX, sY, eX, eY, spriteName) {
+    animInProgress = true;
     var sHex = hexGrid.hexTiles[sX][sY];
     var eHex = hexGrid.hexTiles[eX][eY];
     var coefX = eHex.truex - sHex.truex;
@@ -17,7 +19,6 @@ function projectileEffect(sX, sY, eX, eY, spriteName) {
     bulletSprite.scale.setTo(2);
     bulletSprite.rotation = angleRad + (Math.PI / 2);
     tween = game.add.tween(bulletSprite).to({x: eHex.truex, y: eHex.truey}, distance * fxSpeed);
-    tween.onStart.add(prepareForEffect, this);
     tween.onComplete.add(function() {
         bulletSprite.destroy();
         var expl = game.add.sprite(eHex.truex, eHex.truey, 'explosion');
@@ -27,34 +28,20 @@ function projectileEffect(sX, sY, eX, eY, spriteName) {
         expl.animations.play('explode', 15, false);
         anim.onComplete.add(function() {
             expl.destroy();
+            afterEffect();
         }, this);
-        afterEffect();
     }, this);
     tween.start();
 }
 
 function prepareForEffect() {
-    for (x = 0; x < hexGrid.hexTiles.length; x++) {
-        for(y = 0; y < hexGrid.hexTiles[x].length; y++) {
-            hexGrid.hexTiles[x][y].sprite.inputEnabled = false;
-        }
-    }
-    endTurnButton.inputEnabled = false;
+    
 }
 
 function afterEffect() {
-    for (x = 0; x < hexGrid.hexTiles.length; x++) {
-        for(y = 0; y < hexGrid.hexTiles[x].length; y++) {
-            hexGrid.hexTiles[x][y].sprite.inputEnabled = true;
-        }
-    }
-    endTurnButton.inputEnabled = true;
+    animInProgress = false;
     for (i = 0; i < deleteAfterAnim.length; i++) {
         deleteAfterAnim[i].destroy();
     }
     deleteAfterAnim = [];
-}
-
-function processQueue() {
-    
 }
