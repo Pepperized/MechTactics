@@ -39,7 +39,7 @@ function create() {
     endTurnButton.inputEnabled = true;
     endTurnButton.events.onInputDown.add(function() {
         for (i=0; i < enemies.length; i++) {
-            enemies[i].routine());
+            enemies[i].routine();
         }
         
         for (i=0; i < mechs.length; i++) {
