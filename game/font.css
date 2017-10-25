@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'tarrgetregular';
+    src: url('tarrget-webfont.woff2') format('woff2'),
+         url('tarrget-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

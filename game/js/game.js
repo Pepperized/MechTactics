@@ -8,6 +8,7 @@ var enemyQueue = [];
 var turns = {player: 0,
             enemy: 1};
 var turn = turns.player;
+var score;
 
 function preload() {
 
@@ -30,6 +31,7 @@ function preload() {
 }
 
 function create() {
+    
     game.stage.backgroundColor = "#4488AA";
     hexGrid = new HexGrid(10, 9, 40, 50, 50);
     hexGrid.construct();
@@ -83,6 +85,8 @@ function create() {
     
     enemyMech = new EnemyMech(7, 2);
     enemyMech.draw();
+    
+    score = new Score(10, 10);
     
 }
 

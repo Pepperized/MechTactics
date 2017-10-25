@@ -45,3 +45,32 @@ function afterEffect() {
     }
     deleteAfterAnim = [];
 }
+
+function Score(x, y) {
+    this.x = x;
+    this.y = y;
+    this.score = 0;
+    this.style = { font: "24pt Tarrget", fill: "#ff0044", align: "left" };
+    this.textObject = null;
+    this.draw = function() {
+        this.textObject = game.add.text(this.x, this.y, "Score: " + this.score, this.style);
+        this.textObject.stroke = '#000000';
+        this.textObject.strokeThickness = 6;
+    }
+    this.addScore = function(amount) {
+        this.score = this.score + amount;
+        this.updateText();
+    }
+    this.removeScore = function(amount) {
+        this.score = this.score - amount;
+        if (this.score < 0) {
+            this.score = 0;
+        }
+        this.updateText();
+    }
+    this.updateText = function() {
+        this.textObject.text = "Score: " + this.score;
+    }
+    
+    this.draw();
+}

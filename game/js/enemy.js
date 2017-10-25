@@ -3,6 +3,7 @@ var enemies = [];
 function EnemyMech(x, y) {
     this.spriteName = 'enemyMech';
     this.sprite = null;
+    this.score = 100;
     this.x = x;
     this.y = y;
     this.truex = hexGrid.hexTiles[x][y].truex;
@@ -54,6 +55,7 @@ function EnemyMech(x, y) {
     }
     
     this.destroy = function() {
+        score.addScore(this.score);
         this.sprite.destroy();
         for (i=0; i < this.healthSprites.length; i++) {
             this.healthSprites[i].destroy();
