@@ -158,16 +158,18 @@ function processQueue() {
     }
     if (mechs.length === 0) {
         endGame();
-        endTurnButton.destroy();
+        
     }
 }
 
 function endGame() {
+    endTurnButton.destroy();
     changeTurn(turns.enemy);
     var style = { font: "24pt Tarrget", fill: "#ff0044", align: "center" };
     var text = game.add.text(game.world.centerX, game.world.centerY, "GAME OVER\nYour score is: " + score.score, style);
     text.anchor.setTo(0.5);
     text.stroke = '#000000';
     text.strokeThickness = 6;
+    score.textObject.destroy();
 }
 

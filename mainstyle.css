@@ -1,4 +1,4 @@
-@import "reset.css";
+
 @import "heading.css";
 @import "paragraph.css";
 @import url('https://fonts.googleapis.com/css?family=Lato');
@@ -15,6 +15,7 @@
     margin: 0px;
     padding: 0px;
     padding-left: 15px;
+    padding-top: 5px;
     height: 45px;
     border-bottom: thick solid #181818;
     background-color: #383838;
@@ -24,23 +25,31 @@
     height: 40px;
     font-size: 12pt;
     width: 120px;
-    margin-right: 5px;
 }
 
 .navsection {
     display:inline-block;
+    width: 33%;
 }
 
 #navbtnsection {
-    float: right;
-    margin-right: 30px;
+    float: left;
+    margin-top: 3px;
+}
+
+#loginsection {
+    text-align: right;
     margin-top: 3px;
 }
 
 #maintitle {
     color: white;
-    display: inline-block;
     font-size: 24pt;
+    display: inline-block;
+}
+
+#titlesection {
+    text-align: center;
 }
 
 body {
