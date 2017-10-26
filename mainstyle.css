@@ -16,15 +16,20 @@
     padding: 0px;
     padding-left: 15px;
     padding-top: 5px;
+    padding-bottom: 3px;
     height: 45px;
     border-bottom: thick solid #181818;
     background-color: #383838;
 }
 
-#navbar .btnNormal {
+#navbar .btnNormal, #navbar .btnImportant {
     height: 40px;
     font-size: 12pt;
     width: 120px;
+}
+
+#navbar .btnImportant {
+    background-color: #181818;
 }
 
 .navsection {
