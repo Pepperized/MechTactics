@@ -51,7 +51,7 @@ function Score(x, y) {
     this.x = x;
     this.y = y;
     this.score = 0;
-    this.style = { font: "24pt Tarrget", fill: "#ff0044", align: "left" };
+    this.style = { font: "24pt Tarrget", fill: "#00e500", align: "left" };
     this.textObject = null;
     this.draw = function() {
         this.textObject = game.add.text(this.x, this.y, "Score: " + this.score, this.style);

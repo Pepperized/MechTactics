@@ -62,7 +62,6 @@ function create() {
         var randInt = getRandomInt(2, 6);
         if (spawnChance >= randInt) createRandomSpawn();
         else spawnChance++;
-        
     }, this);
     
     
@@ -98,8 +97,6 @@ function create() {
     enemyMech.draw();
     
     score = new Score(10, 10);
-    
-    warning = new EnemySpawn(1, 1, 3);
     
 }
 
@@ -159,5 +156,18 @@ function processQueue() {
         var item = enemyQueue.pop();
         item.routine();
     }
+    if (mechs.length === 0) {
+        endGame();
+        endTurnButton.destroy();
+    }
+}
+
+function endGame() {
+    changeTurn(turns.enemy);
+    var style = { font: "24pt Tarrget", fill: "#ff0044", align: "center" };
+    var text = game.add.text(game.world.centerX, game.world.centerY, "GAME OVER\nYour score is: " + score.score, style);
+    text.anchor.setTo(0.5);
+    text.stroke = '#000000';
+    text.strokeThickness = 6;
 }
 
