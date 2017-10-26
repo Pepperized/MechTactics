@@ -3,6 +3,7 @@ var fxSpeed = 3;
 var deleteAfterAnim = [];
 var queue = [];
 var animInProgress = false;
+var updateQueue = [];
 
 function projectileEffect(sX, sY, eX, eY, spriteName) {
     animInProgress = true;
@@ -73,4 +74,46 @@ function Score(x, y) {
     }
     
     this.draw();
+}
+
+function SpawnWarning(x, y, turns) {
+    this.spriteName = 'spawnWarning';
+    this.turns = turns;
+    this.style = { font: "24pt Tarrget", fill: "#ff0044", align: "center" };
+    this.sprite = null;
+    this.textObject = null;
+    this.animBool = true;
+    this.x = x;
+    this.y = y;
+    this.truex = hexGrid.hexTiles[this.x][this.y].truex;
+    this.truey = hexGrid.hexTiles[this.x][this.y].truey;
+    this.draw = function() {
+        this.sprite = game.add.sprite(this.truex, this.truey + 5, this.spriteName);
+        this.textObject = game.add.text(this.truex, this.truey, this.turns, this.style);
+        this.textObject.stroke = '#000000';
+        this.textObject.strokeThickness = 4;
+        this.textObject.anchor.setTo(0.5);
+        this.sprite.anchor.setTo(0.5);
+        this.sprite.scale.setTo(1);
+    }
+    this.endTurnEvent = function() {
+        this.turns -= 1;
+        this.textObject.text = this.turns;
+    }
+    this.update = function() {
+        if(this.animBool) {
+            this.sprite.angle += 1;
+            if (this.sprite.angle > 35) this.animBool = false;
+        } else {
+            this.sprite.angle -= 1;
+            if (this.sprite.angle < -35) this.animBool = true;
+        }
+    }
+    this.destroy = function() {
+        this.textObject.destroy();
+        this.sprite.destroy();
+    }
+    
+    this.draw();
+    updateQueue.push(this);
 }

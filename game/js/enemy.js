@@ -1,4 +1,5 @@
 var enemies = [];
+var spawns = [];
 
 function EnemyMech(x, y) {
     this.spriteName = 'enemyMech';
@@ -115,4 +116,37 @@ function FindPlayerInRange(mech, range) {
         }
     }
     return null;
+}
+
+function constructTank(x, y) {
+    var enemyMech = new EnemyMech(x, y);
+    enemyMech.draw();
+}
+
+function EnemySpawn(x, y, turns) {
+    this.x = x;
+    this.y = y;
+    this.spawnWarning = new SpawnWarning(x, y, turns);
+    this.turns = turns;
+    this.mechConstructor = constructTank;
+    this.endTurnEvent = function() {
+        this.turns -= 1;
+        this.spawnWarning.endTurnEvent();
+        if (this.turns === 0) {
+            this.mechConstructor(this.x, this.y);
+            this.spawnWarning.destroy();
+            remove(spawns, this);
+        }
+    }
+    
+    hexGrid.hexTiles[this.x][this.y].mech = this;
+    spawns.push(this);
+}
+
+function createRandomSpawn() {
+    var coOrd = findRandomEmptyTile();
+    var x = coOrd[0];
+    var y = coOrd[1];
+    
+    new EnemySpawn(x, y, 3);
 }

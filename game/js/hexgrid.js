@@ -182,3 +182,10 @@ function ResetHexes() {
         }
     }
 }
+
+function findRandomEmptyTile() {
+    var x = getRandomInt(1, hexGrid.rows);
+    var y = getRandomInt(1, hexGrid.cols);
+    if(!hexGrid.hexTiles[x][y].mech) return [x, y];
+    else return findRandomEmptyTile();
+}

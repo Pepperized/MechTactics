@@ -62,7 +62,6 @@ function Mech(x, y) {
     }
     
     this.destroy = function() {
-        score.removeScore(this.score);
         this.sprite.destroy();
         for (i=0; i < this.healthSprites.length; i++) {
             this.healthSprites[i].destroy();

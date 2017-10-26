@@ -9,6 +9,8 @@ var turns = {player: 0,
             enemy: 1};
 var turn = turns.player;
 var score;
+var warning;
+var spawnChance = 0;
 
 function preload() {
 
@@ -28,6 +30,7 @@ function preload() {
     game.load.image('playerBullet', "assets/playerBullet.png");
     game.load.image('enemyBullet', "assets/enemyBullet.png");
     game.load.spritesheet('explosion', "assets/explosion.png", 14, 14);
+    game.load.image('spawnWarning', "assets/spawnWarning.png");
 }
 
 function create() {
@@ -46,12 +49,20 @@ function create() {
         changeTurn(turns.enemy);
         enemyQueue = enemies.slice();
         endTurnButton.loadTexture('enemyTurn');
+        for (i=0; i < spawns.length; i++) {
+            spawns[i].endTurnEvent();
+        }
         
         for (i=0; i < mechs.length; i++) {
             for (j=0; j < mechs[i].abilities.length; j++) {
                 mechs[i].abilities[j].used = false;
             }
         }
+        
+        var randInt = getRandomInt(2, 6);
+        if (spawnChance >= randInt) createRandomSpawn();
+        else spawnChance++;
+        
     }, this);
     
     
@@ -88,6 +99,8 @@ function create() {
     
     score = new Score(10, 10);
     
+    warning = new EnemySpawn(1, 1, 3);
+    
 }
 
 var t = 0;
@@ -100,7 +113,9 @@ function update() {
             processQueue();
         } else t++;
     }
-
+    for (i=0; i < updateQueue.length; i++) {
+        updateQueue[i].update();
+    }
 }
 
 function getRandomInt(min, max) {
