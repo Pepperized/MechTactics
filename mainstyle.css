@@ -47,6 +47,19 @@
     margin-top: 3px;
 }
 
+#logincontent {
+    margin-right: 10px;
+}
+
+input {
+    width: 7vw;
+    height: 30px;
+    font-size: 12pt;
+    border: 2px solid #181818;
+    border-radius: 6px;
+    padding: 2px 2px;
+}
+
 #maintitle {
     color: white;
     font-size: 24pt;

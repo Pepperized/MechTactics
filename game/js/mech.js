@@ -1,52 +1,82 @@
+//scale of the mech sprites
 var MECHSCALE = 1.5;
+//scale of the ability cards
 var CARDSCALE = 0.25;
+//scale of the health tiles
 var HEALTHSCALE = 2;
+//the cancel action card
 var cancelCard = new CancelCard();
+//teams enum
 var teams = {player: 0,
             enemy: 1};
+//player mech array
 var mechs = [];
 
+//player mech object
 function Mech(x, y) {
+    //name of sprite for mech
     this.spriteName = 'missileMech';
     this.sprite = null;
+    //the value of the mech in score, not used
     this.score = 100;
+    //grid x postion
     this.x = x;
+    //and y
     this.y = y;
+    //x positon in pixels
     this.truex = hexGrid.hexTiles[x][y].truex;
+    //and y
     this.truey = hexGrid.hexTiles[x][y].truey;
+    //team that this mech belongs to
     this.team = teams.player;
+    //amount of health the mech has
     this.health = 3;
+    //array for storing the sprites for health
     this.healthSprites = [];
+    //array for storing abilities
     this.abilities = [];
+    //currently unused
     this.exhausted = false;
+    //draw function
     this.draw = function() {
+        //adds the sprite and stores it
         this.sprite = game.add.sprite(this.truex, this.truey, this.spriteName);
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.setTo(MECHSCALE);
+        //draws the health sprites
         this.drawHealth();
     }
+    //on clicked
     this.clickEvent = function () {
+            //draw the ability cards on screen
             for (i=0; i < this.abilities.length; i++){
                 this.abilities[i].draw(i);
             }
             cancelCard.draw(this.abilities.length);
         
     }
+    //draw health function
     this.drawHealth = function() {
+        //remove all previous sprites in the array
         for (i=0; i < this.healthSprites.length; i++) {
             this.healthSprites[i].destroy();
         }
+        //sets the array to a new array, for safety
         this.healthSprites = [];
+        //for each health point
         for (i=0; i < this.health; i++) {
+            //width between health sprites
             var spriteWidth = 8;
+            //aligns them top center of mech
             var healthSprite = game.add.sprite(this.truex + (spriteWidth * i) - (this.health * (spriteWidth / 2)) + spriteWidth / 2, this.truey - 30, 'health');
             healthSprite.anchor.setTo(0.5);
             healthSprite.scale.setTo(HEALTHSCALE);
+            //adds the sprite to the health sprites array
             this.healthSprites.push(healthSprite);
         }
     }
     
-    
+    //changes the postion to the specified grid coordinates
     this.changePosition = function(x, y) {
         var oldx = this.x;
         var oldy = this.y;
@@ -61,6 +91,7 @@ function Mech(x, y) {
         this.drawHealth();
     }
     
+    //removes and cleanups object
     this.destroy = function() {
         this.sprite.destroy();
         for (i=0; i < this.healthSprites.length; i++) {
@@ -70,13 +101,17 @@ function Mech(x, y) {
         remove(mechs, this);
     }
     
+    //adds the mech to the appropriate place by default
     hexGrid.hexTiles[x][y].mech = this;
+    //adds the mech to the array of player mechs
     mechs.push(this);
 }
 
+//cancel action card object
 function CancelCard() {
     this.spriteName = 'cancelCard';
     this.sprite = null;
+    //draw takes the amount of abilities the mech has as the argument, used for positioning
     this.draw = function(n) {
         this.sprite = game.add.sprite((n + 1) * 150, 450, this.spriteName);
         this.sprite.scale.setTo(CARDSCALE);
@@ -85,10 +120,12 @@ function CancelCard() {
         
     }
     this.clickEvent = function () {
+        //cancels the ability
         AfterTargeting();
     }
 }
 
+//ability object
 function Ability(mech) {
     this.spriteName = 'moveCard';
     this.sprite = null;
