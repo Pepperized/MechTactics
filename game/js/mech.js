@@ -127,50 +127,77 @@ function CancelCard() {
 
 //ability object
 function Ability(mech) {
+    //name of the sprite for the ability
     this.spriteName = 'moveCard';
+    //sprite variable
     this.sprite = null;
+    //mech that this ability is for
     this.mech = mech;
+    //range of ability
     this.range = 2;
+    //has the ability been used this turn
     this.used = false;
+    //draw function, n is the order that this ability is the list of abilities
     this.draw = function(n) {
+        //position the sprite according to what order it is
         this.sprite = game.add.sprite((n * 200) + 30, 450, this.spriteName);
+        //scale it
         this.sprite.scale.setTo(CARDSCALE);
+        //enable input
         this.sprite.inputEnabled = true;
+        //add the clickEvent function when it is clicked
         this.sprite.events.onInputDown.add(this.clickEvent, this);
     }
+    //when clicked
     this.clickEvent = function() {
+        //change the selected ability to this
         selected_ability = this;
+        //draw the range indicator
         this.rangeDraw();
     }
+    //by default, RangeNormal
     this.rangeDraw = RangeNormal;
+    //effect when used
     this.effect = null;
 }
 
+//basic move function
 function MoveEffect(clickX, clickY) {
+    //if within range and doesn't contain a mech
     if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range && !hexGrid.hexTiles[clickX][clickY].mech) {
+        //change the coordinates of the mech to the clicked coords
         var x = selected_mech.x;
         var y = selected_mech.y;
         selected_mech.changePosition(clickX, clickY);
+        //call the cleanup function
         AfterTargeting();
+        //make the ability used
         this.used = true;
     }
 }
 
+//basic range drawing for move
 function RangeNormal() {
+    //make all hexes white
     ResetHexes();
     var x = this.mech.x;
     var y = this.mech.y;
-    
+    //find all hex coordinates in range
     for (var dx = -this.range; -this.range <= dx && this.range >= dx; dx++) {
         for (var dy = -this.range; -this.range <= dy && this.range >= dy; dy++) {
             for (var dz = -this.range; -this.range <= dz && this.range >= dz; dz++) {
                 if (dx + dy + dz == 0) {
                     var cubicCoOrd = cube_add( new cube(dx, dy, dz), oddr_to_cube(x, y));
                     var offsetCoOrd = cube_to_oddr(cubicCoOrd);
+                    //if the coordinate exists
                     if (validateGridRef(offsetCoOrd[0], offsetCoOrd[1]))
+                        //if it doesn't contain a mech
                         if(!hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].mech)
+                            //make the tile green
                             hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonGreen');
+                        //if it does contain a mech
                         else {
+                            //make the tile red
                             hexGrid.hexTiles[offsetCoOrd[0]][offsetCoOrd[1]].changeSprite('hexagonRed')
                         }
                 }
@@ -179,6 +206,7 @@ function RangeNormal() {
     }
 }
 
+//basic range drawing for targeting
 function RangeTarget() {
     ResetHexes();
     var x = this.mech.x;
@@ -210,19 +238,30 @@ function RangeTarget() {
     }
 }
 
+
+//basic fire effect
 function FireEffect(clickX, clickY) {
     var x = selected_mech.x;
     var y = selected_mech.y;
+    //if clicked location is in range
     if (cube_distance(oddr_to_cube(clickX, clickY), oddr_to_cube(selected_mech.x, selected_mech.y)) <= this.range && hexGrid.hexTiles[clickX][clickY].mech) {
         var targetMech = hexGrid.hexTiles[clickX][clickY].mech;
+        //if clicked location has an enemy on it
         if (targetMech.team === teams.enemy){
+            //subtract the health from enemy
             targetMech.health--;
+            //redraw their health
             targetMech.drawHealth();
+            //if target mech is 0 or less health
             if (targetMech.health <= 0) {
+                //flag for deletion
                 deleteAfterAnim.push(targetMech);
             }
+            //create animation for shot
             projectileEffect(x, y, clickX, clickY, 'playerBullet');
+            //make all the hexes white
             AfterTargeting();
+            //make the ability used
             this.used = true;
         }
     }

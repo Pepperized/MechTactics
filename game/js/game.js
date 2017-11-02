@@ -1,7 +1,7 @@
 /*jshint es5: false */
 /*global Phaser*/
+//game setup
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'gamediv', { preload: preload, create: create, update: update });
-var graphics;
 var hexGrid;
 var endTurnButton;
 var enemyQueue = [];
