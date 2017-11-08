@@ -15,6 +15,7 @@
 ?>
 
 <body>
+    <div id ="content">
     <!-- top player info, to be made dynamic -->
     <div id="topplayerinfo">
         <span>
@@ -66,6 +67,7 @@
             </tr>
         </table>
         </span>
+    </div>
     </div>
 </body>
 

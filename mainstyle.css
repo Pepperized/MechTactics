@@ -16,6 +16,11 @@ body {
     padding-top: 12px;
 }
 
+/*sets a minimum height for the content of the page so that there isn't whitespace below the footer on small pages */
+#content {
+    min-height: calc(100% - 45px - 20px);
+}
+
 /*navigation bar*/
 #navbar {
     position: fixed;
@@ -85,6 +90,7 @@ body {
     margin-top: 45px;
     margin-left: 0;
     background-color: #fbfbfb;
+    margin-bottom: 0;
 }
 /* style of button for important/highlighted selections*/
 .btnImportant {
@@ -119,7 +125,9 @@ body {
 footer {
     height 20px;
     background-color: #181818;
+    padding-left: 5px;
     bottom: 0;
+    margin-bottom: 0;
     border-top: 1px solid black;
 }
 /*p within footer*/

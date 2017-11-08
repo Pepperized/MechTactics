@@ -17,6 +17,7 @@
 ?>
 
 <body>
+    <div id="content">
     <div id="gamediv">
         <!-- game.js inserts canvas here -->
     </div>
@@ -27,6 +28,7 @@
     <script src="js/enemy.js"></script>
     <script src="js/fx.js"></script>
     <script src="js/game.js"></script>
+    </div>
 </body>
 
 <!-- outputs the footer -->
