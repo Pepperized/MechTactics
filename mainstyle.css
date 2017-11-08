@@ -7,6 +7,13 @@
 * {
     font-family: "Lato", Helvetica, sans-serif;
 }
+html {
+    margin: 0;
+}
+body {
+    padding-top: 12px;
+}
+
 
 #navbar {
     position: fixed;
@@ -107,6 +114,7 @@ body {
 }
 
 footer {
+    height 20px;
     background-color: #181818;
     bottom: 0;
     border-top: 1px solid black;

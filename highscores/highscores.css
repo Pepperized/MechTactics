@@ -1,0 +1,60 @@
+#topplayerinfo {
+    display: flex;
+    justify-content: center;
+    background-color: #4DAC71;
+    height: 20vh;
+    padding: 10px;
+}
+
+#topplayerinfo *{
+    text-align: center;
+}
+
+#leaderboards {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: #383838;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 2px solid #181818;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 25vw;
+}
+
+th {
+    background-color: #383838;
+    color: white;
+    font-size: 20pt;
+}
+tr {
+    font-size: 18pt;
+    background-color: #AAAAAA;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+tr:nth-child(2) {
+    background-color: #FFDC00;
+}
+
+tr:nth-child(3) {
+    background-color: #DDDDDD;
+}
+
+tr:nth-child(4) {
+    background-color: #FF851B;
+}
+
+

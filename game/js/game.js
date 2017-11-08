@@ -39,7 +39,7 @@ function preload() {
 //called after preload is finished
 function create() {
     //Sets a background colour
-    game.stage.backgroundColor = "#4488AA";
+    game.stage.backgroundColor = "#383838";
     //Creates a new HexGrid object with arguments specifiying the amount of rows, collumns, hexagon size and grid center
     hexGrid = new HexGrid(10, 9, 40, 50, 50);
     //Populates the grid with HexTile objects using the variables stored within the HexGrid

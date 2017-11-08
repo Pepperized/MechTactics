@@ -1,46 +1,17 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<link rel="stylesheet" type="text/css" href="/mainstyle.css"/>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Watchtower Studios</title>
-    
-    <!-- Load lato font into website.-->
-    <!--<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">-->
-    <div id="navbar">
-        <section class="navsection" id="titlesection">
-            <h1 id="maintitle">Watchtower Studios</h1>
-        </section>
-        <section class="navsection" id="navbtnsection">
-            <button class="btnNormal" onclick="window.location.href='index.html'">Home</button>
-            <button class="btnNormal">How to Play</button>
-        </section>
-        <section class="navsection" id="loginsection">
-            <section id="logincontent">
-                <input type="text" id="uname" name="username" placeholder="Username">
-                <input type="password" id="pass" name="password" placeholder="Password">
-                <button class="btnImportant">Login</button>
-                <button class="btnNormal">Register</button>
-            </section>
-        </section>
-    </div>
-    
-    <script src="script.js"></script>
-    <link rel="stylesheet" type="text/css" href="home.css">
-</head>
-    
+<?php
+    //get the DOCUMENT_ROOT server variable
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    //append the path of the target php script
+    $path .= "/header.php";
+    //include it
+    include($path);
+    outputHeader("How to Play");
+?>
+
 <body>
-    <div id="splashdiv">
-        <span>
-            <h1 id="welcomeh1">Welcome to Watchtower Studios</h1>
-            <p>Some text.</p>
-            <button class="btnImportant" onclick="window.location.href='game/index.html'">Play Game</button>
-            <button class="btnNormal" id="infobutton">Info</button> 
-        </span>
-    </div>
-    <div id="textbody">
-        <p>Hello world!</p>
-        <p>The standard Lorem Ipsum passage, used since the 1500s
+    <p>The standard Lorem Ipsum passage, used since the 1500s
 
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
@@ -59,9 +30,16 @@
         1914 translation by H. Rackham
 
         "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."</p>
-    </div>
+
 </body>
-    
-<footer>
-    <p>Footer text</p>
-</footer>
+
+<?php
+    //get the DOCUMENT_ROOT server variable
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    //append the path of the target php script
+    $path .= "/footer.php";
+    //include it
+    include($path);
+    //output the footer
+    outputFooter();
+?>
