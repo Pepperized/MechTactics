@@ -1,5 +1,4 @@
-@import "mainstyle.css";
-
+/* makes the splash screen as big as the display window and colour and centers it */
 #splashdiv {
     height: 100vh;
     background-color: #4DAC71;
@@ -8,7 +7,7 @@
     justify-content: center;
     flex-direction: column;
 }
-
+/* centers all text within the splash div */
 #splashdiv * {
     text-align: center;
 }

@@ -3,18 +3,20 @@
 @import "paragraph.css";
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-
+/* changes the font across everything to "Lato", if not available "Helvetica" and if not available sans-serif */
 * {
     font-family: "Lato", Helvetica, sans-serif;
 }
+/*removes default margins*/
 html {
     margin: 0;
 }
+/*padding for the body, because the navigation bar is fixed positioned, so isn't taken into account for spacing*/
 body {
     padding-top: 12px;
 }
 
-
+/*navigation bar*/
 #navbar {
     position: fixed;
     top: 0;
@@ -28,36 +30,37 @@ body {
     border-bottom: thick solid #181818;
     background-color: #383838;
 }
-
+/*buttons on the navigation bar*/
 #navbar .btnNormal, #navbar .btnImportant {
     height: 40px;
     font-size: 12pt;
     width: 120px;
 }
-
+/*changes the background colour of one style of the buttons, only in the nav bar */
 #navbar .btnImportant {
     background-color: #181818;
 }
 
+/*each of the three sections are made inline and 33% width*/
 .navsection {
     display:inline-block;
     width: 33%;
 }
-
+/*navigation button section is floated left*/
 #navbtnsection {
     float: left;
     margin-top: 3px;
 }
-
+/*login section is floated right */
 #loginsection {
     text-align: right;
     margin-top: 3px;
 }
-
+/*some spacing from the right for the login content*/
 #logincontent {
     margin-right: 10px;
 }
-
+/*makes the input sections, mainly in the login area, look good */
 input {
     width: 7vw;
     height: 30px;
@@ -66,24 +69,24 @@ input {
     border-radius: 6px;
     padding: 2px 2px;
 }
-
+/*title in the top center of each page*/
 #maintitle {
     color: white;
     font-size: 24pt;
     display: inline-block;
 }
-
+/*aligns the title of nav bar center*/
 #titlesection {
     text-align: center;
 }
-
+/*spacing a default colours for the body*/
 body {
     width: 100%;
     margin-top: 45px;
     margin-left: 0;
     background-color: #fbfbfb;
 }
-
+/* style of button for important/highlighted selections*/
 .btnImportant {
     background-color: #266C42;
     border-width: 0;
@@ -97,7 +100,7 @@ body {
     font-size: 14pt;
     display: inline-block;
 }
-
+/*normal button style*/
 .btnNormal {
     background-color: transparent;
     border-width: 4px;
@@ -112,14 +115,14 @@ body {
     font-size: 14pt;
     display: inline-block;
 }
-
+/*footer spacing and colours*/
 footer {
     height 20px;
     background-color: #181818;
     bottom: 0;
     border-top: 1px solid black;
 }
-
+/*p within footer*/
 footer p {
     color: lightgray;
     max-width: none;

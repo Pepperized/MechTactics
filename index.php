@@ -1,5 +1,9 @@
+<!-- loads the stylesheet for every page -->
+<link rel="stylesheet" type="text/css" href="/mainstyle.css">
+<!-- loads the stylesheet for this page -->
 <link rel="stylesheet" type="text/css" href="home.css">
 
+<!-- outputs the header -->
 <?php
     //get the DOCUMENT_ROOT server variable
     $path = $_SERVER['DOCUMENT_ROOT'];
@@ -9,17 +13,22 @@
     include($path);
     outputHeader("Home");
 ?>
-    
+
 <body>
+    <!-- splash screen div -->
     <div id="splashdiv">
         <span>
             <h1 id="welcomeh1">Welcome to Watchtower Studios</h1>
             <p>Some text.</p>
+            <!-- smooth scrolling script -->
             <script src="script.js"></script>
+            <!-- button to take user to the game -->
             <button class="btnImportant" onclick="window.location.href='/game/'">Play Game</button>
+            <!-- button to scroll the page using the script.js file, smoothly -->
             <button class="btnNormal" id="infobutton">Info</button> 
         </span>
     </div>
+    <!-- example text body -->
     <div id="textbody">
         <p>Hello world!</p>
         <p>The standard Lorem Ipsum passage, used since the 1500s
@@ -43,7 +52,8 @@
         "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."</p>
     </div>
 </body>
-    
+
+<!-- outputs footer -->
 <?php
     //get the DOCUMENT_ROOT server variable
     $path = $_SERVER['DOCUMENT_ROOT'];

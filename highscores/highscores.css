@@ -1,3 +1,4 @@
+/*spacing, centering and colours of the top player info div*/
 #topplayerinfo {
     display: flex;
     justify-content: center;
@@ -5,23 +6,23 @@
     height: 20vh;
     padding: 10px;
 }
-
+/* makes all text in the top player info justified center */
 #topplayerinfo *{
     text-align: center;
 }
-
+/* leaderboards div centering and colour */
 #leaderboards {
     padding: 10px;
     display: flex;
     justify-content: center;
     background-color: #383838;
 }
-
+/* no gaps between table cells */
 table {
     border-spacing: 0;
     border-collapse: collapse;
 }
-
+/* spacing and bordering for all cells */
 th, td {
     border: 2px solid #181818;
     padding: 8px;
@@ -29,30 +30,31 @@ th, td {
     margin-bottom: 5px;
     width: 25vw;
 }
-
+/* colours and font size for table headings */
 th {
     background-color: #383838;
     color: white;
     font-size: 20pt;
 }
+/* default table row colours and font size */
 tr {
     font-size: 18pt;
     background-color: #AAAAAA;
 }
-
+/*overrides every other row to have a slightly different colour, for readability */
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-
+/* displays the 1st place row as gold */
 tr:nth-child(2) {
     background-color: #FFDC00;
 }
-
+/* second as silver */
 tr:nth-child(3) {
     background-color: #DDDDDD;
 }
-
+/*third as bronze */
 tr:nth-child(4) {
     background-color: #FF851B;
 }
