@@ -3,4 +3,6 @@
     display: flex;
     justify-content: center;
     background-color: #4DAC71;
+    flex-direction: column;
+    align-items: center;
 }

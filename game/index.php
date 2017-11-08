@@ -19,6 +19,7 @@
 <body>
     <div id="content">
     <div id="gamediv">
+        <h1 style="text-align: center">Mech Tactics</h1>
         <!-- game.js inserts canvas here -->
     </div>
     <!-- all scripts for the game in correct load order -->
