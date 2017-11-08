@@ -1,5 +1,6 @@
 
 <?php
+//Stores all onclick parameters, to avoid nested quotes
 $linkActions = array(
 				"Home" => "window.location.href='/'", 
 				"Game" => "window.location.href='/game/'",
@@ -36,7 +37,7 @@ function outputHeader($currentPage) {
     echo '</div>';
     echo '</head>';
 } 
-
+//This function echos fully built button with correct link and class
 function createNavigationButton($currentPage, $targetPage) {
 	global $linkActions;
 	echo '<button ' .
