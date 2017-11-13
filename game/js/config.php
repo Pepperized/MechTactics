@@ -1,4 +1,6 @@
+
 <?php
+//This file came with the engine.
     if (!isset($path)) { $path = '..'; }
 
     if (!isset($modules))

@@ -3,6 +3,7 @@
 <!-- loads the stylesheet for this page -->
 <link rel="stylesheet" type="text/css" href="home.css">
 
+
 <!-- outputs the header -->
 <?php
     //get the DOCUMENT_ROOT server variable

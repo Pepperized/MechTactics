@@ -11,6 +11,7 @@ var turn = turns.player;
 var score;
 var warning;
 var spawnChance = 0;
+var gameOver = false;
 
 //called when page is loaded
 function preload() {
@@ -211,15 +212,19 @@ function processQueue() {
         item.routine();
     }
     //if there are no player mechs left
-    if (mechs.length === 0) {
+    if (mechs.length === 0 && gameOver === false) {
+        gameOver = true;
         //call the endGame function
-        endGame();
-        
+        endGame(); 
     }
 }
 
 //called when the game is over
 function endGame() {
+    var highscores = new Array();
+    if (localStorage.highscores) {
+        highscores = JSON.parse(localStorage.highscores);
+    }
     //removes the end turn button
     endTurnButton.destroy();
     //makes it the enemy turn, to disable input
@@ -232,6 +237,17 @@ function endGame() {
     //adds an outline
     text.stroke = '#000000';
     text.strokeThickness = 6;
+    
+    if (sessionStorage.login) {
+        var highscore = new Object();
+        highscore.username = JSON.parse(sessionStorage.login).username;
+        highscore.score = score.score;
+        highscores.push(highscore);
+    } else {
+        window.alert("Login in next time and have your score saved!");
+    }
+        
+    localStorage.setItem("highscores", JSON.stringify(highscores));
     //removes the score object
     score.textObject.destroy();
 }

@@ -14,6 +14,7 @@ function outputHeader($currentPage) {
     echo '<html lang="en">';
     echo '<head>';
     echo '<meta charset="UTF-8">';
+    echo '<script src="/login.js"></script>';
     echo '<title>Watchtower Studios</title>';
     echo '<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">';
     echo '<div id="navbar">';
@@ -30,8 +31,8 @@ function outputHeader($currentPage) {
     echo '<section id="logincontent">';
     echo '<input type="text" id="uname" name="username" placeholder="Username">';
     echo '<input type="password" id="pass" name="password" placeholder="Password">';
-    echo '<button class="btnImportant">Login</button>';
-    echo '<button class="btnNormal">Register</button>';
+    echo '<button class="btnImportant" onclick="Login()">Login</button>';
+    echo '<button class="btnNormal" onclick="Register()">Register</button>';
     echo '</section>';
     echo '</section>';
     echo '</div>';
