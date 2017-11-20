@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/mainstyle.css"/>
 <!-- loads the stylesheet for this page -->
 <link rel="stylesheet" type="text/css" href="highscores.css"/>
+<script src="jquery.js"></script>
+<script src="table.js"></script>
 
 <!-- outputs the header -->
 <?php

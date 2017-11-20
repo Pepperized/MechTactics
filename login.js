@@ -41,6 +41,7 @@ function Login() {
     if (search) {
         var udata = CreateUserData()
         sessionStorage.setItem("login", JSON.stringify(usersdata[index]));
+        window.alert("Login successful");
     }else {
         window.alert("Incorrect username or password");
     }
