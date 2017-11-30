@@ -5,8 +5,8 @@ $linkActions = array(
 				"Home" => "window.location.href='/'", 
 				"Game" => "window.location.href='/game/'",
 				"How to Play" => "window.location.href='/howtoplay/'",
-				"High Scores" => "window.location.href='/highscores/'"
-				
+				"High Scores" => "window.location.href='/highscores/'",
+				"Register" => "window.location.href='/register/'"
 				);
 //This function outputs the header
 function outputHeader($currentPage) {
@@ -14,6 +14,7 @@ function outputHeader($currentPage) {
     echo '<html lang="en">';
     echo '<head>';
     echo '<meta charset="UTF-8">';
+    echo '<script src="/jquery.js"></script>';
     echo '<script src="/login.js"></script>';
     echo '<title>Watchtower Studios</title>';
     echo '<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">';
@@ -29,10 +30,11 @@ function outputHeader($currentPage) {
     echo '</section>';
     echo '<section class="navsection" id="loginsection">';
     echo '<section id="logincontent">';
-    echo '<input type="text" id="uname" name="username" placeholder="Username">';
-    echo '<input type="password" id="pass" name="password" placeholder="Password">';
+    echo '<input type="text" id="uname" name="username" placeholder="Username" required>';
+    echo '<input type="password" id="pass" name="password" placeholder="Password" required>';
     echo '<button class="btnImportant" onclick="Login()">Login</button>';
-    echo '<button class="btnNormal" onclick="Register()">Register</button>';
+    //echo '<button class="btnNormal" onclick="Register()">Register</button>';
+    createNavigationButton($currentPage, "Register");
     echo '</section>';
     echo '</section>';
     echo '</div>';

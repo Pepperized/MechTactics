@@ -1,0 +1,18 @@
+#content {
+    padding-top: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#content input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+p {
+    color: red;
+    font-size: 10pt;
+    line-height: 80%;
+}

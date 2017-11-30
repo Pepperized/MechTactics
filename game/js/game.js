@@ -157,6 +157,7 @@ function update() {
     }
 }
 
+
 //found online, random integer inclusive
 function getRandomInt(min, max) {
   min = Math.ceil(min);
