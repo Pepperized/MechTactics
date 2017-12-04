@@ -9,10 +9,13 @@ if (!localStorage.usersdata) {
 //when register button is pressed
 function Register() {
     //get the various fields
+    var text = $('.validtxt');
+    text.remove();
     var username = document.getElementById("runame").value;
     var password = document.getElementById("rpass").value;
     var passconfirm = document.getElementById("rconfirm").value;
     var email = document.getElementById("remail").value;
+    var phonenumber = document.getElementById("rphonenum").value;
     //validation bool
     var validationFailed = false;
     //get usersdata
@@ -21,18 +24,20 @@ function Register() {
     for (var i=0; i < usersdata.length; i++) {
         if (usersdata[i].username === username) {
             validationFailed = true;   
-            $("<p>Username Taken</p>").insertAfter("#runame");
+            $("<p class='validtxt'>Username Taken</p>").insertAfter("#runame");
         } if (usersdata[i].email === email) {
             validationFailed = true;   
-            $("<p>Email Taken</p>").insertAfter("#remail");
+            $("<p class='validtxt'>Email Taken</p>").insertAfter("#remail");
         }
     }
     //check if passwords match
-    if (passconfirm !== password) {validationFailed = true; $("<p>Password does not match.</p>").insertAfter("#rpass");}
+    if (passconfirm !== password) {validationFailed = true; $("<p class='validtxt'>Password does not match.</p>").insertAfter("#rpass");}
     //check if email is valid
-    if (!ValidateEmail(email)) {validationFailed = true; $("<p>Email not valid.</p>").insertAfter("#remail");}
+    if (!ValidateEmail(email)) {validationFailed = true; $("<p class='validtxt'>Email not valid.</p>").insertAfter("#remail");}
+    //check of phone number is a number
+    if (isNaN(phonenumber)) {validationFailed = true; $("<p class='validtxt'>Phone number not valid.</p>").insertAfter("#rphonenum");}
     //create a new udata object
-    var udata = CreateUserData(username, password, email);
+    var udata = CreateUserData(username, password, email, phonenumber);
     //if validation was successful
     if (!validationFailed) {
         //add this udata to usersdata
@@ -72,10 +77,12 @@ function Login() {
     }
 }
 
-function CreateUserData(username, password, email) {
+function CreateUserData(username, password, email, phonenumber) {
     var udata = new Object();
     udata.username = username;
     udata.password = password;
+    udata.email = email;
+    udata.phonenumber = phonenumber;
     return udata;
 }
 

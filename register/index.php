@@ -25,6 +25,8 @@
             <input type="password" id="rconfirm" name="confirm" required>
             <label for="email">E-Mail</label>
             <input type="text" id="remail" name="email" required>
+            <label for="phonenum">Phone Number</label>
+            <input type="text" id="rphonenum" name="phonenum" required>
         </form>
         <button class="btnImportant" onclick="Register()">Submit</button>
     </div>

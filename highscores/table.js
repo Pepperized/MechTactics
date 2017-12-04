@@ -11,22 +11,23 @@ highscoreData.sort(function(a,b){
 
 //when the document is ready
 $( document ).ready(function() {
-    //find all table rows
-    var trs = $('tr');
+    //add top of table to the table string
+    var htmlstring = "<table><tr><th>Name</th><th>Score</th></tr>";
     //for each highscoredata
     for (i=0; i < highscoreData.length; i++) {
-        //if there are enough table rows
-        if (i+1 < trs.length) {
-            //capture that row
-            var tr = $(trs[i+1]);
-            //find the table data
-            var tds = tr.children('td');
-            //set the inner HTML of one to the username
-            tds[0].innerHTML = highscoreData[i].username;
-            //set the other to the score
-            tds[1].innerHTML = highscoreData[i].score;
-        }
+        //add a table row
+        htmlstring += "<tr><td>" + highscoreData[i].username + "</td><td>" + highscoreData[i].score + "</td></tr>";
     }
+    //finishes table tag
+    htmlstring += "</table>";
+    //gets the div where the table will be inserted
+    var tablediv = $('#tablediv');
+    //inserts the table
+    tablediv.append(htmlstring);
+    //gets the leader info h2 tag
+    var leaderinfo = $('#leaderinfo');
+    //changes the text of the leaderinfo
+    leaderinfo.text(highscoreData[0].username + " is our current winner with " + highscoreData[0].score + " points!");
 });
 
 
