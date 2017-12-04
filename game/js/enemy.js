@@ -1,33 +1,52 @@
+//array that holds all active enemies
 var enemies = [];
+//array that holds all active enemy spawns
 var spawns = [];
 
+//EnemyMech class takes, grid x and grid y
 function EnemyMech(x, y) {
+    //default value for the sprite key
     this.spriteName = 'enemyMech';
+    //storage for the sprite
     this.sprite = null;
+    //score 'bounty'
     this.score = 100;
+    //grid x position
     this.x = x;
+    //grid y position
     this.y = y;
+    //pixel x location
     this.truex = hexGrid.hexTiles[x][y].truex;
+    //pixel y location
     this.truey = hexGrid.hexTiles[x][y].truey;
+    //team it belongs to
     this.team = teams.enemy;
+    //range of weapons
     this.range = 3;
+    //health of enemy
     this.health = 2;
+    //array to store health tiles
     this.healthSprites = [];
-    this.abilities = [];
+    //bool if action is taken
     this.exhausted = false;
+    //called each enemy turn
     this.routine = function () {
+        //move randomly to a valid adjacent tile
         EnemyMove(this);
+        //shoot a player in range
         EnemyShoot(this);
     }
     this.clickEvent = function() {
         
     }
+    //called when sprite is first drawn
     this.draw = function() {
         this.sprite = game.add.sprite(this.truex, this.truey, this.spriteName);
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.setTo(MECHSCALE);
         this.drawHealth();
     }
+    //draws the health tiles
     this.drawHealth = function() {
         for (i=0; i < this.healthSprites.length; i++) {
             this.healthSprites[i].destroy();
@@ -41,6 +60,7 @@ function EnemyMech(x, y) {
             this.healthSprites.push(healthSprite);
         }
     }
+    //function to move the unit to a position
     this.changePosition = function(x, y) {
         var oldx = this.x;
         var oldy = this.y;
@@ -54,7 +74,7 @@ function EnemyMech(x, y) {
         hexGrid.hexTiles[oldx][oldy].mech = null;
         this.drawHealth();
     }
-    
+    ///called when mech is destroyed
     this.destroy = function() {
         score.addScore(this.score);
         this.sprite.destroy();
@@ -64,27 +84,37 @@ function EnemyMech(x, y) {
         hexGrid.hexTiles[this.x][this.y].mech = null;
         remove(enemies, this);
     }
-    
+    //assigns itself to the mech field of the tile it is on
     hexGrid.hexTiles[x][y].mech = this;
+    //adds itself to the active enemy array
     enemies.push(this);
 }
-
+//Enemy movement function
 function EnemyMove(mech) {
+    //get a random direction
     var direction = cube_directions[getRandomInt(0, 5)];
+    //get the target tile in cubic coords, eg. x, y, z
     var target = cube_getNeighborInDir(oddr_to_cube(mech.x, mech.y), direction);
+    //get the target coords in offset, eg. x, y
     var offsetCoOrds = cube_to_oddr(target);
+    //unwound the recursion
     var i = 0;
-    //unwound recursion
+    //unwound recursion to 30 iterations max, finds a valid tile
     while (!validateGridRef(offsetCoOrds[0], offsetCoOrds[1]) && i < 30){
+        //find a random adjacent tile
         direction = cube_directions[getRandomInt(0, 5)];
         target = cube_getNeighborInDir(oddr_to_cube(mech.x, mech.y), direction);
+        //sets offset coords to the new target
         offsetCoOrds = cube_to_oddr(target);
         i++;
     }
+    //if the target location doesn't already contain a mech
     if (!hexGrid.hexTiles[offsetCoOrds[0]][offsetCoOrds[1]].mech)
+        //change the location of the mech to the target location
         mech.changePosition(offsetCoOrds[0], offsetCoOrds[1]);
 }
 
+//Enemy shooting function
 function EnemyShoot(mech) {
     var targetMech = FindPlayerInRange(mech, mech.range);
     if(targetMech !== null) {
