@@ -76,7 +76,7 @@ function Login() {
         window.alert("Incorrect username or password");
     }
 }
-
+//Returns a userdata object with the given fields
 function CreateUserData(username, password, email, phonenumber) {
     var udata = new Object();
     udata.username = username;
