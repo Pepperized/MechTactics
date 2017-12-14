@@ -33,7 +33,6 @@ function outputHeader($currentPage) {
     echo '<input type="text" id="uname" name="username" placeholder="Username" required>';
     echo '<input type="password" id="pass" name="password" placeholder="Password" required>';
     echo '<button class="btnImportant" onclick="Login()">Login</button>';
-    //echo '<button class="btnNormal" onclick="Register()">Register</button>';
     createNavigationButton($currentPage, "Register");
     echo '</section>';
     echo '</section>';

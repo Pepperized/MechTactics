@@ -116,21 +116,29 @@ function EnemyMove(mech) {
 
 //Enemy shooting function
 function EnemyShoot(mech) {
+    //Find a player in range
     var targetMech = FindPlayerInRange(mech, mech.range);
+    //If a target was found
     if(targetMech !== null) {
+        //Reduce the health of that target by 1
         targetMech.health--;
+        //Redraw the target's health
         targetMech.drawHealth();
+        //Create a new projcetile effect
         projectileEffect(mech.x, mech.y, targetMech.x, targetMech.y, 'enemyBullet');
+        //If the target is at 0 or less
         if (targetMech.health <= 0) {
+            //Queue for deletion
             deleteAfterAnim.push(targetMech);
         }
         
     }
 }
-
+//Find player function
 function FindPlayerInRange(mech, range) {
+    //Container for result
     var targetMech = null;
-    
+    //Searches through each hex and finds a player within range
     for (var hexX=0; hexX < hexGrid.hexTiles.length; hexX++) {
         for (var hexY=0; hexY < hexGrid.hexTiles[hexX].length; hexY++) {
             if (hexGrid.hexTiles[hexX][hexY].mech) {
@@ -147,23 +155,32 @@ function FindPlayerInRange(mech, range) {
     }
     return null;
 }
-
+//Makes a new enemy
 function constructTank(x, y) {
     var enemyMech = new EnemyMech(x, y);
     enemyMech.draw();
 }
-
+//Enemy spawn object
 function EnemySpawn(x, y, turns) {
+    //HexX and HexY
     this.x = x;
     this.y = y;
+    //All visuals stored here
     this.spawnWarning = new SpawnWarning(x, y, turns);
+    //Number of turns remaining
     this.turns = turns;
+    //Constructor function for the mech
     this.mechConstructor = constructTank;
+    //End turn event
     this.endTurnEvent = function() {
         this.turns -= 1;
+        //Updates visuals
         this.spawnWarning.endTurnEvent();
+        //If there is 0 turns left
         if (this.turns === 0) {
+            //Spawn the mech
             this.mechConstructor(this.x, this.y);
+            //Remove this object
             this.spawnWarning.destroy();
             remove(spawns, this);
         }
@@ -172,11 +189,12 @@ function EnemySpawn(x, y, turns) {
     hexGrid.hexTiles[this.x][this.y].mech = this;
     spawns.push(this);
 }
-
+//Create random EnemySpawn
 function createRandomSpawn() {
+    //Find random empty tile
     var coOrd = findRandomEmptyTile();
     var x = coOrd[0];
     var y = coOrd[1];
-    
+    //Create new spawn
     new EnemySpawn(x, y, 3);
 }
