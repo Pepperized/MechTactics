@@ -23,7 +23,7 @@
         <span>
             <h1>High Scores</h1>
             <br>
-            <h2 id="leaderinfo">Jeff is our current winner with 180 points!</h2>
+            <h2 id="leaderinfo"></h2>
         </span>
     </div>
     <!-- highscore table, to be made dynamic -->
